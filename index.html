@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All-in-One Social Post Generator — Auto Create Assets</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="prototype-banner" style="background:#eef2ff;color:#3730a3;font-size:12px;padding:6px 12px;display:flex;justify-content:center;align-items:center;gap:8px;border-bottom:1px solid #c7d2fe;text-align:center;" role="note"><span>Interactive prototype — showing simulated data. Live AI backend coming soon.</span><button type="button" aria-label="Dismiss" onclick="this.parentElement.style.display='none'" style="background:none;border:none;cursor:pointer;font-size:14px;line-height:1;color:inherit;">×</button></div>
+  <div class="glass-bg"></div>
+
+  <div class="container">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">📱</span>
+        <h1>Social Post Studio</h1>
+      </div>
+      <p class="subtitle">Orchestrate cross-network content instantly. Generate captions, custom AI images, slideshow videos, and overlay background music from a single prompt.</p>
+    </header>
+
+    <div class="dashboard-grid">
+      <!-- Left Panel: Configurations form -->
+      <section class="panel config-panel">
+        <h3>Post Configurations</h3>
+        <p class="section-desc">Configure your campaign tone, prompt, and target networks.</p>
+        <div class="backend-status" id="backend-status">Checking backend…</div>
+        <div class="generate-notice hidden" id="generate-notice"></div>
+
+        <form id="generator-form">
+          <div class="form-group">
+            <label for="post-prompt">Topic / Campaign Prompt</label>
+            <textarea id="post-prompt" rows="4" maxlength="2000" placeholder="Describe what you want to write about (e.g. 'Launching our new open-source AI calendar setter on Product Hunt next Friday')" required></textarea>
+            <div class="char-counter" id="prompt-counter">0 / 2000</div>
+          </div>
+
+          <div class="form-group">
+            <label for="post-tone">Tone of Voice</label>
+            <select id="post-tone">
+              <option value="hype">Hype / Viral 🔥</option>
+              <option value="professional">Professional / Corporate 💼</option>
+              <option value="casual">Casual / Conversational 👋</option>
+              <option value="educational">Educational / Deep-dive 💡</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Target Platforms</label>
+            <div class="platform-checkboxes">
+              <label class="checkbox-container">
+                <input type="checkbox" id="chk-x" checked>
+                <span class="checkmark"></span> Twitter / X
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="chk-linkedin" checked>
+                <span class="checkmark"></span> LinkedIn
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="chk-instagram" checked>
+                <span class="checkmark"></span> Instagram Feed
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="chk-tiktok" checked>
+                <span class="checkmark"></span> TikTok Video
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="btn-generate">Generate Post Assets</button>
+        </form>
+
+        <!-- Media assets status console (honest: text only, no image/video/music rendering) -->
+        <div class="media-console hidden" id="media-console">
+          <h4>Generated Assets Console <span class="badge" id="mode-badge"></span></h4>
+          <div class="asset-row">
+            <span>🎨 Custom AI Image</span>
+            <span class="badge badge-warn">Placeholder — not generated</span>
+          </div>
+          <div class="asset-row">
+            <span>🎬 Slideshow Video</span>
+            <span class="badge badge-warn">Placeholder — not rendered</span>
+          </div>
+          <div class="asset-row">
+            <span>🎵 Music Overlay</span>
+            <span class="badge badge-warn">Placeholder — not generated</span>
+          </div>
+          <div class="media-prompts" id="media-prompts"></div>
+          <div class="hashtag-row hidden" id="hashtag-row">
+            <span id="hashtag-list"></span>
+            <button class="btn btn-secondary btn-small" id="btn-copy-hashtags" type="button">Copy hashtags</button>
+          </div>
+          <div class="download-grid">
+            <button class="btn btn-secondary btn-block" id="btn-download-txt" type="button">Download .TXT</button>
+            <button class="btn btn-secondary btn-block" id="btn-download-md" type="button">Download .MD</button>
+            <button class="btn btn-secondary btn-block" id="btn-download-json" type="button">Download .JSON</button>
+            <button class="btn btn-secondary btn-block" id="btn-copy-all" type="button">Copy all to clipboard</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Platforms mockup previewer -->
+      <section class="panel preview-panel">
+        <div class="preview-header">
+          <h3>Interactive Previews</h3>
+          <nav class="preview-tabs">
+            <button class="tab-btn active" data-platform="x">X / Twitter</button>
+            <button class="tab-btn" data-platform="linkedin">LinkedIn</button>
+            <button class="tab-btn" data-platform="instagram">Instagram</button>
+            <button class="tab-btn" data-platform="tiktok">TikTok</button>
+          </nav>
+        </div>
+
+        <div class="mockup-display" id="mockup-display">
+          
+          <!-- Mockup X -->
+          <div class="mockup-card active" id="mock-x">
+            <div class="mock-header">
+              <div class="mock-avatar">⚡</div>
+              <div class="mock-user">
+                <span class="m-display">Void Reformer OS <span class="badge-verify">✓</span></span>
+                <span class="m-handle">@voidreformer</span>
+              </div>
+            </div>
+            <p class="mock-text" id="mock-x-text">Click Generate to create custom campaign posts.</p>
+            <div class="char-counter" id="counter-x"></div>
+            <div class="mock-media-box" id="mock-x-media">
+              <!-- JS Injected Image -->
+            </div>
+            <div class="mock-footer">
+              <span>💬 12</span> <span>🔁 42</span> <span>❤️ 158</span> <span>📊 12.4K</span>
+            </div>
+          </div>
+
+          <!-- Mockup LinkedIn -->
+          <div class="mockup-card" id="mock-linkedin">
+            <div class="mock-header">
+              <div class="mock-avatar">⚡</div>
+              <div class="mock-user">
+                <span class="m-display">Void Reformer OS</span>
+                <span class="m-headline">Building the future of Autonomous Agent Workspaces</span>
+                <span class="m-time">Just now • 🌐</span>
+              </div>
+            </div>
+            <p class="mock-text" id="mock-li-text">Click Generate to create custom campaign posts.</p>
+            <div class="char-counter" id="counter-linkedin"></div>
+            <div class="mock-media-box" id="mock-li-media">
+              <!-- JS Injected Image -->
+            </div>
+            <div class="mock-footer border-top">
+              <span>👍 Like</span> <span>💬 Comment</span> <span>🔁 Share</span> <span>✉️ Send</span>
+            </div>
+          </div>
+
+          <!-- Mockup Instagram -->
+          <div class="mockup-card" id="mock-instagram">
+            <div class="mock-header">
+              <div class="mock-avatar ring">⚡</div>
+              <div class="mock-user">
+                <span class="m-display font-bold">voidreformer</span>
+              </div>
+            </div>
+            <div class="mock-media-box instagram-square" id="mock-ig-media">
+              <!-- JS Injected Image -->
+            </div>
+            <div class="mock-actions-ig">
+              <span>❤️ 💬 ✈️</span>
+            </div>
+            <div class="mock-text-ig">
+              <p><strong>voidreformer</strong> <span id="mock-ig-text">Click Generate to create custom campaign posts.</span></p>
+              <div class="char-counter" id="counter-instagram"></div>
+            </div>
+          </div>
+
+          <!-- Mockup TikTok -->
+          <div class="mockup-card tiktok-card" id="mock-tiktok">
+            <div class="tiktok-player" id="tiktok-player">
+              <!-- Slideshow simulation -->
+              <div class="tiktok-video-box" id="tiktok-video">
+                <div class="tiktok-captions" id="tiktok-captions">Generate post assets to compile video...</div>
+              </div>
+              <!-- Music Overlay widget -->
+              <div class="music-vinyl-disc" id="music-vinyl">🎵</div>
+              <!-- Right sidebar icons -->
+              <div class="tiktok-sidebar">
+                <div class="tk-icon">❤️<br><span>4.2K</span></div>
+                <div class="tk-icon">💬<br><span>184</span></div>
+                <div class="tk-icon">🔖<br><span>48</span></div>
+                <div class="tk-icon">✈️<br><span>12</span></div>
+              </div>
+              <!-- Bottom detail -->
+              <div class="tiktok-bottom">
+                <h4>@voidreformer</h4>
+                <p id="tiktok-desc">Click Generate to compile captions & video...</p>
+                <div class="char-counter" id="counter-tiktok"></div>
+                <div class="tiktok-music-title">♬ original sound - Void Reformer OS</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
