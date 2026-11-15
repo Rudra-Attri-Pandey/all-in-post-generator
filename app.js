@@ -104,9 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const PLACEHOLDER = 'linear-gradient(135deg, #374151, #111827)';
   const GRADIENTS = {
-    x: 'linear-gradient(135deg, #f43f5e, #8b5cf6)',
+    x: 'linear-gradient(135deg, #b72818, #1d3ecf)',
     linkedin: 'linear-gradient(135deg, #1e3a8a, #0d9488)',
-    instagram: 'linear-gradient(135deg, #ec4899, #f43f5e)',
+    instagram: 'linear-gradient(135deg, #e6af00, #b72818)',
   };
 
   function renderPlaceholders(platforms) {
@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
       tiktokDesc.textContent = `${slides[0].substring(0, 100)}${slides[0].length > 100 ? '...' : ''} #fyp`;
       setCounter(counters.tiktok, slides.join('\n'), 0);
       const bgs = [
-        'linear-gradient(180deg, #ec4899, #8b5cf6)',
-        'linear-gradient(180deg, #8b5cf6, #3b82f6)',
-        'linear-gradient(180deg, #3b82f6, #10b981)',
+        'linear-gradient(180deg, #e6af00, #1d3ecf)',
+        'linear-gradient(180deg, #1d3ecf, #3b82f6)',
+        'linear-gradient(180deg, #3b82f6, #d7f7e1)',
       ];
       let idx = 0;
       tiktokVideo.style.background = bgs[0];
