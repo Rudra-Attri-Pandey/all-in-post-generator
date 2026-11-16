@@ -655,3 +655,6 @@ textarea:focus, select:focus {
   font-size: 0.72rem;
   white-space: nowrap;
 }
+
+/* Palette role - paper tint for warning copy */
+.badge-warn { background: rgba(255, 235, 232, 0.95); color: #8a1c10; border-color: rgba(255, 235, 232, 0.6); }
